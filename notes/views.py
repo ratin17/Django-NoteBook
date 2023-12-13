@@ -2,15 +2,12 @@ from django.shortcuts import render,redirect
 from .models import Note,Entry
 from .forms import Noteform
 
-MyNotes=[{'id':1,'title':'First Note','entries':['Entry 1.1','Entry 1.2','Entry 1.3']},
-         {'id':2,'title':'Second Note','entries':['Entry 2.1','Entry 2.2','Entry 2.3']},
-         {'id':3,'title':'Third Note','entries':['Entry 3.1','Entry 3.2','Entry 3.3']},
-         ]
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request,'notes/index.html')
 
-
+@login_required
 def notes(request):
     
     notes=Note.objects.order_by('-date_added')
@@ -19,6 +16,7 @@ def notes(request):
     
     return render(request,'notes/notes.html',context)
 
+@login_required
 def note(request,note_id):
     note=Note.objects.get(id=note_id)
     entries=note.entry_set.order_by('date_added')
@@ -27,7 +25,8 @@ def note(request,note_id):
     
     return render(request,'notes/note.html',context)
     
-    
+
+@login_required 
 def new_note(request):
     if request.method !='POST':
         form=Noteform()
