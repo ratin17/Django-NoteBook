@@ -10,7 +10,7 @@
     </p>
 
     <ul>
-        {% for entry in entries %}
+        {% for entry in note.entry_set.all %}
             <div class="card mb-3">
                 <h4 class="card-header">
                     <a href="{% url 'notes:note %'}">Update Entry</a>
